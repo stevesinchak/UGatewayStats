@@ -19,9 +19,9 @@ The following reports are provided for tracking WAN upload and download data usa
 
 ### Screenshots
 
-![Screenshot 1](https://github.com/stevesinchak/UGatewayStats/Screenshot1.jpg)
+![Screenshot 1](https://raw.githubusercontent.com/stevesinchak/UGatewayStats/main/Screenshot1.jpg)
 
-![Screenshot 2](https://github.com/stevesinchak/UGatewayStats/Screenshot2.jpg)
+![Screenshot 2](https://raw.githubusercontent.com/stevesinchak/UGatewayStats/main/Screenshot2.jpg)
 
 ### Installation 
 
