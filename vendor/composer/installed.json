@@ -1,0 +1,61 @@
+{
+    "packages": [
+        {
+            "name": "art-of-wifi/unifi-api-client",
+            "version": "v1.1.76",
+            "version_normalized": "1.1.76.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Art-of-WiFi/UniFi-API-client.git",
+                "reference": "746fb0933c1b0bbc3622ab4787edb9bffbafcd3a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Art-of-WiFi/UniFi-API-client/zipball/746fb0933c1b0bbc3622ab4787edb9bffbafcd3a",
+                "reference": "746fb0933c1b0bbc3622ab4787edb9bffbafcd3a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">=5.5.0"
+            },
+            "time": "2021-12-29T14:01:12+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "UniFi_API\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Art of WiFi",
+                    "email": "info@artofowifi.net",
+                    "homepage": "https://artofwifi.net"
+                }
+            ],
+            "description": "API client class for use with Ubiquiti's UniFi controller",
+            "homepage": "https://github.com/Art-of-WiFi/UniFi-API-client",
+            "keywords": [
+                "UBNT",
+                "api",
+                "client",
+                "controller",
+                "ubiquiti",
+                "unifi"
+            ],
+            "support": {
+                "issues": "https://github.com/Art-of-WiFi/UniFi-API-client/issues",
+                "source": "https://github.com/Art-of-WiFi/UniFi-API-client/tree/v1.1.76"
+            },
+            "install-path": "../art-of-wifi/unifi-api-client"
+        }
+    ],
+    "dev": true,
+    "dev-package-names": []
+}
