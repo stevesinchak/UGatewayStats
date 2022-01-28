@@ -62,12 +62,15 @@ git pull
 ```
 
 ### Raspberry Pi Full Setup and Headless (no monitor) Installation
-1. Download Raspberry Pi OS Lite (Rasbian) from [raspberrypi.com](https://www.raspberrypi.com/software/operating-systems/).
+1. Download Raspberry Pi OS Lite (Rasbian which is based on Debian) from [raspberrypi.com](https://www.raspberrypi.com/software/operating-systems/).
 2. Write the downloaded image to a SDCard ([balenaEtcher](https://www.balena.io/etcher/) is a good choice).
-3. Mount the boot partition of the SDCard on your PC/Mac by removing and re-inserting the USB reader.  Create a file simply called SSH which will enable SSH remote management upon first boot. 
+3. Mount the boot partition of the SDCard on your PC/Mac by removing and re-inserting the USB reader.  Create a file simply called `SSH` which will enable SSH remote management upon first boot. 
 4. If using WiFi on a headless setup, create a `wpa_supplicant.conf` file as described in the [official docs](https://www.raspberrypi.com/documentation/computers/configuration.html#configuring-networking31). 
-5. SSH into the Pi with `SSH pi@<IP address>` and use the default `raspberry` password. 
-6. Apply all updates to the system with `sudo apt-get update` and `sudo apt-get upgrade`.
+5. SSH into the Pi with `SSH pi@<IP address>` and use the default `raspberry` password. You may need to find the device in the UniFi Controller client list to obtain its IP. 
+6. Apply all updates to the system and pre-installed packages with: `sudo apt-get update && sudo apt-get upgrade -y`
+7. Time to install Apache, git, PHP and the necessary PHP plugins with: `sudo apt-get install apache2 git php php-curl php-json -y`
+8. Navigate to `/var/www/html` with `cd /var/www/html`
+9. Run the following to install UGatewayStats: `sudo git clone https://github.com/stevesinchak/UGatewayStats.git`
 
 
 

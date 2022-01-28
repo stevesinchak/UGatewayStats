@@ -60,6 +60,19 @@ function bootstrapTableFormatterTX(value) {
 
 function processDataAndSetupChartAndTable(apiJSON, mode)
 {
+    // Check response from PHP JSON API Helper
+    if (apiJSON.length==1)
+    {
+        if (apiJSON[0].hasOwnProperty('status'))
+        {
+            if(apiJSON[0]['status']=='error')
+            {
+                alert('Unable to connect or login to the UniFi Controller. Please check the URL and credentials stored in the config.php file!');
+                return
+            }
+        }
+    }
+    
     // Get max values of RX and TX
     var maxTX = 0, maxRX = 0;
     apiJSON.forEach(function (dataPoint) {
