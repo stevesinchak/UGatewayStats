@@ -1,4 +1,5 @@
 ## UGatewayStats
+
 A simple graphical interface to display UniFi Gateway WAN bandwidth statistics pulled from the UniFi Controller with direct API calls. Written in PHP and JavaScript, this tool is powered by [Bootstrap](https://getbootstrap.com/), [Bootstrap-Table](https://bootstrap-table.com/), [Chart.js](https://www.chartjs.org/), [jQuery](https://jquery.com/), [Composer](https://getcomposer.org/), and most importantly, the [UniFi API Client](https://github.com/Art-of-WiFi/UniFi-API-client).
 
 ### Features
@@ -28,7 +29,7 @@ The following reports are provided for tracking WAN upload and download data usa
 The best method to install is via git clone.  While at a prompt on your server in the root web folder (such as `/var/web/www`), run the following command:
 
 ```bash
-git clone https://github.com/stevesinchak/UGatewayStats.git
+sudo git clone https://github.com/stevesinchak/UGatewayStats.git
 ```
 Then following the configuration section below to customize for your UniFi Controller info. 
 
@@ -55,10 +56,10 @@ $debug=FALSE;
 
 ### Updates
 
-Similar to installation, you can run a git command from your web root folder to pull down any updates:
+Similar to installation, you can run a git command from `UGatewayStats` sub-folder to pull down any updates:
 
 ```bash
-git pull
+sudo git pull
 ```
 
 ### Raspberry Pi Full Setup and Headless (no monitor) Installation
@@ -71,6 +72,7 @@ git pull
 7. Time to install Apache, git, PHP and the necessary PHP plugins with: `sudo apt-get install apache2 git php php-curl php-json -y`
 8. Navigate to `/var/www/html` with `cd /var/www/html`
 9. Run the following to install UGatewayStats: `sudo git clone https://github.com/stevesinchak/UGatewayStats.git`
+10. Open up browser of your choice, navigate to `HTTP://<Pi IP Address>/UGatewayStats/` to view the stats!
 
 
 
