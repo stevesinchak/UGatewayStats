@@ -26,7 +26,7 @@ The following reports are provided for tracking WAN upload and download data usa
 
 ### Installation 
 
-The best method to install is via git clone.  While at a prompt on your server in the root web folder (such as `/var/web/www`), run the following command:
+The best method to install is via git clone.  While at a prompt on your server in the root web folder (such as `/var/www/html`), run the following command:
 
 ```bash
 sudo git clone https://github.com/stevesinchak/UGatewayStats.git
@@ -77,6 +77,3 @@ sudo git pull
 ### Contribute
 
 If you have ideas for improvements, requests, issues or would like to code please open a issue or create a pull requests. 
-
-
-
