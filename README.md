@@ -74,7 +74,9 @@ sudo git pull
 9. Run the following to install UGatewayStats: `sudo git clone https://github.com/stevesinchak/UGatewayStats.git`
 10. Open up browser of your choice, navigate to `HTTP://<Pi IP Address>/UGatewayStats/` to view the stats!
 
+### Contribute
 
+If you have ideas for improvements, requests, issues or would like to code please open a issue or create a pull requests. 
 
 
 

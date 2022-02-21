@@ -1,5 +1,6 @@
 var scaleRX = "MB";
 var scaleTX = "MB";
+var scaleTotal = "MB";
 
 function convertUnixTimeToTime(unixTime)
 {
@@ -45,9 +46,14 @@ function convertBytesToGigaBytes(bytes)
     return Math.round((bytes/(1000*1000*1000)) * 1000 + Number.EPSILON) / 1000;
 }
 
-function convertBytesToPetaBytes(bytes)
+function convertBytesToTeraBytes(bytes)
 {
     return Math.round((bytes/(1000*1000*1000*1000)) * 1000 + Number.EPSILON) / 1000;
+}
+
+function convertBytesToPetaBytes(bytes)
+{
+    return Math.round((bytes/(1000*1000*1000*1000*1000)) * 1000 + Number.EPSILON) / 1000;
 }
 
 function bootstrapTableFormatterRX(value) {
@@ -58,21 +64,12 @@ function bootstrapTableFormatterTX(value) {
     return value + ' ' + scaleTX;
 }
 
+function bootstrapTableFormatterTotal(value) {
+    return value + ' ' + scaleTotal;
+}
+
 function processDataAndSetupChartAndTable(apiJSON, mode)
 {
-    // Check response from PHP JSON API Helper
-    if (apiJSON.length==1)
-    {
-        if (apiJSON[0].hasOwnProperty('status'))
-        {
-            if(apiJSON[0]['status']=='error')
-            {
-                alert('Unable to connect or login to the UniFi Controller. Please check the URL and credentials stored in the config.php file!');
-                return
-            }
-        }
-    }
-    
     // Get max values of RX and TX
     var maxTX = 0, maxRX = 0;
     apiJSON.forEach(function (dataPoint) {
@@ -83,9 +80,17 @@ function processDataAndSetupChartAndTable(apiJSON, mode)
     // Calculate scale for data points based on max values and set global variables
     scaleRX = calculateBytesLabel(maxRX);
     scaleTX = calculateBytesLabel(maxTX);
+
+    if (maxRX > maxTX)
+    {
+        scaleTotal = scaleRX;
+    } else {
+        scaleTotal = scaleTX;
+    }
+
     
     // Process JSON into three data arrays
-    var labels = [], dataTX = [], dataRX = [];
+    var labels = [], dataTX = [], dataRX = [], dataTotal = [];
     apiJSON.forEach(function (dataPoint) {
         if (mode == 'minutes')
         {
@@ -104,6 +109,7 @@ function processDataAndSetupChartAndTable(apiJSON, mode)
         if (scaleRX=="KB") { dataRX.push(convertBytesToKiloBytes(dataPoint['wan-rx_bytes']));
         } else if (scaleRX=="MB") { dataRX.push(convertBytesToMegaBytes(dataPoint['wan-rx_bytes']));
         } else if (scaleRX=="GB") { dataRX.push(convertBytesToGigaBytes(dataPoint['wan-rx_bytes']));
+        } else if (scaleRX=="TB") { dataRX.push(convertBytesToTeraBytes(dataPoint['wan-rx_bytes']));
         } else if (scaleRX=="PB") { dataRX.push(convertBytesToPetaBytes(dataPoint['wan-rx_bytes']));
         } else {
             dataRX.push(dataPoint['wan-rx_bytes']);
@@ -113,9 +119,20 @@ function processDataAndSetupChartAndTable(apiJSON, mode)
         if (scaleTX=="KB") { dataTX.push(convertBytesToKiloBytes(dataPoint['wan-tx_bytes']));
         } else if (scaleTX=="MB") { dataTX.push(convertBytesToMegaBytes(dataPoint['wan-tx_bytes']));
         } else if (scaleTX=="GB") { dataTX.push(convertBytesToGigaBytes(dataPoint['wan-tx_bytes']));
+        } else if (scaleTX=="TB") { dataTX.push(convertBytesToTeraBytes(dataPoint['wan-tx_bytes']));
         } else if (scaleTX=="PB") { dataTX.push(convertBytesToPetaBytes(dataPoint['wan-tx_bytes']));
         } else {
             dataTX.push(dataPoint['wan-tx_bytes']);
+        }
+
+        // Process Total based on scale
+        if (scaleTotal=="KB") { dataTotal.push(convertBytesToKiloBytes(dataPoint['wan-rx_bytes']+dataPoint['wan-tx_bytes']));
+        } else if (scaleTotal=="MB") { dataTotal.push(convertBytesToMegaBytes(dataPoint['wan-rx_bytes']+dataPoint['wan-tx_bytes']));
+        } else if (scaleTotal=="GB") { dataTotal.push(convertBytesToGigaBytes(dataPoint['wan-rx_bytes']+dataPoint['wan-tx_bytes']));
+        } else if (scaleTotal=="TB") { dataTotal.push(convertBytesToTeraBytes(dataPoint['wan-rx_bytes']+dataPoint['wan-tx_bytes']));
+        } else if (scaleTotal=="PB") { dataTotal.push(convertBytesToPetaBytes(dataPoint['wan-rx_bytes']+dataPoint['wan-tx_bytes']));
+        } else {
+            dataTotal.push(dataPoint['wan-rx_bytes']+dataPoint['wan-tx_bytes']);
         }
         
     });
@@ -213,7 +230,7 @@ function processDataAndSetupChartAndTable(apiJSON, mode)
     var formattedBandwidthData = [];
     for (var x = 0; x < labels.length; ++x)
     {
-        formattedBandwidthData.push({time: labels[x], download: dataRX[x], upload: dataTX[x]});
+        formattedBandwidthData.push({time: labels[x], download: dataRX[x], upload: dataTX[x], total: dataTotal[x]});
     }
 
     // Build the table
@@ -221,7 +238,8 @@ function processDataAndSetupChartAndTable(apiJSON, mode)
         columns: [
             {field: 'time', title: 'Period'},
             {field: 'download', title: 'Download Bandwidth (' + scaleRX + ')', sortable: true, formatter: bootstrapTableFormatterRX},
-            {field: 'upload', title: 'Upload Bandwidth (' + scaleTX + ')', sortable: true, formatter: bootstrapTableFormatterTX}
+            {field: 'upload', title: 'Upload Bandwidth (' + scaleTX + ')', sortable: true, formatter: bootstrapTableFormatterTX},
+            {field: 'total', title: 'Total Bandwidth (' + scaleTotal + ')', sortable: true, formatter: bootstrapTableFormatterTotal}
         ],
         data: formattedBandwidthData
     })
