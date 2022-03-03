@@ -1,3 +1,4 @@
+var version = "0.2";
 var scaleRX = "MB";
 var scaleTX = "MB";
 var scaleTotal = "MB";
@@ -18,6 +19,18 @@ function convertUnixTimeToDate(unixTime)
 {
     var date = new Date(unixTime);
     return date.toLocaleDateString();
+}
+
+function convertUnixTimeToDateUTC(unixTime)
+{
+    var date = new Date(unixTime);
+    return date.toUTCString();
+}
+function convertUnixTimeToMonthUTC(unixTime)
+{
+    var date = new Date(unixTime);
+    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    return months[date.getUTCMonth()]+' '+date.getUTCFullYear();
 }
 
 function calculateBytesLabel(bytes)
@@ -100,9 +113,13 @@ function processDataAndSetupChartAndTable(apiJSON, mode)
         {
             labels.push(convertUnixTimeToDateTime(dataPoint.time));
         }
-        else
+        else if (mode == 'daily')
         {
             labels.push(convertUnixTimeToDate(dataPoint.time));
+        }
+        else if (mode == 'monthly')
+        {
+            labels.push(convertUnixTimeToMonthUTC(dataPoint.time));
         }
 
         // Process RX based on scale
@@ -279,3 +296,5 @@ else
 
 // Do Stuff!
 getDataFromUnifiAPI(mode);
+
+$('#versionText').text(version);
