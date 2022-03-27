@@ -1,4 +1,4 @@
-var version = "0.2";
+var version = "0.3";
 var scaleRX = "MB";
 var scaleTX = "MB";
 var scaleTotal = "MB";
