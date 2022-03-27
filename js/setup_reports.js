@@ -83,6 +83,14 @@ function bootstrapTableFormatterTotal(value) {
 
 function processDataAndSetupChartAndTable(apiJSON, mode)
 {
+    // check for API errors
+    if (apiJSON[0].error !== undefined)
+    {
+        alert('API Error: '+apiJSON[0].error);
+        return;
+    }
+    
+    
     // Get max values of RX and TX
     var maxTX = 0, maxRX = 0;
     apiJSON.forEach(function (dataPoint) {
@@ -260,7 +268,6 @@ function processDataAndSetupChartAndTable(apiJSON, mode)
         ],
         data: formattedBandwidthData
     })
-    
 }
 
 function getDataFromUnifiAPI(mode = 'minutes')
@@ -268,7 +275,7 @@ function getDataFromUnifiAPI(mode = 'minutes')
     var jsonStatData = $.ajax({
         url: 'json/unifi_api.php?m=' + mode,
         dataType: 'json',
-        error: function(details){ alert("Error making request to json/unifi_api.php: " + details.statusText)},
+        error: function(details){ alert("Low level json endpoint error! Does the server hosting UGatewayStats support PHP and the requirements and modules listed on the UGatewayStats repo readme?")},
         success: function (results){ processDataAndSetupChartAndTable(results, mode)}
     });
 }
